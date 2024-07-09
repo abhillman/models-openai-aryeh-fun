@@ -28,6 +28,11 @@
           in {
             options.services.models-openai-aryeh-fun = {
               enable = mkEnableOption "Enables models-openai-aryeh-fun";
+              openaiApiKeyPath = mkOption {
+                type = types.path;
+                example = "/secrets/openai-api-key";
+                description = "Path to a valid OpenAI API key";
+              };
             };
             config = mkIf cfg.enable {
               users.users."models-openai-aryeh-fun" = {
@@ -43,6 +48,7 @@
                   ExecStart = "${pkg}/bin/models-openai-aryeh-fun";
                   User = "models-openai-aryeh-fun";
                   Group = "models-openai-aryeh-fun";
+                  Environment = "OPENAI_API_KEY=" + (builtins.readFile cfg.openaiApiKeyPath);
                 };
                 description =
                   "Server that lists currently available OpenAI models.";
