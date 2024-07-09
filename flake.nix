@@ -30,11 +30,19 @@
               enable = mkEnableOption "Enables models-openai-aryeh-fun";
             };
             config = mkIf cfg.enable {
+              users.users."models-openai-aryeh-fun" = {
+                isSystemUser = true;
+                group = "models-openai-aryeh-fun";
+              };
+              users.groups."models-openai-aryeh-fun" = { };
+
               systemd.services."models-openai-aryeh-fun" = {
                 wantedBy = [ "multi-user.target" ];
                 serviceConfig = let pkg = self.packages.${system}.default;
                 in {
                   ExecStart = "${pkg}/bin/models-openai-aryeh-fun";
+                  User = "models-openai-aryeh-fun";
+                  Group = "models-openai-aryeh-fun";
                 };
                 description =
                   "Server that lists currently available OpenAI models.";
