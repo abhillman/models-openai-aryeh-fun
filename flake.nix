@@ -43,12 +43,12 @@
 
               systemd.services."models-openai-aryeh-fun" = {
                 wantedBy = [ "multi-user.target" ];
-                serviceConfig = let pkg = self.packages.${system}.default;
-                in {
+                serviceConfig = {
                   ExecStart = "${pkg}/bin/models-openai-aryeh-fun";
                   User = "models-openai-aryeh-fun";
                   Group = "models-openai-aryeh-fun";
-                  Environment = "OPENAI_API_KEY=" + (builtins.readFile cfg.openaiApiKeyPath);
+                  Environment = "OPENAI_API_KEY="
+                    + (builtins.readFile cfg.openaiApiKeyPath);
                 };
                 description =
                   "Server that lists currently available OpenAI models.";
