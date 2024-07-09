@@ -1,3 +1,5 @@
+For a demo, visit [models.openai.aryeh.fun](https://models.openai.aryeh.fun/)
+
 # Local development
 
 `cargo run`. Make sure `OPENAI_API_KEY` is set.
